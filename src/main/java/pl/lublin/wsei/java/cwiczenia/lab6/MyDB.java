@@ -1,8 +1,6 @@
 package pl.lublin.wsei.java.cwiczenia.lab6;
 
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.SQLException;
+import java.sql.*;
 import java.util.Properties;
 
 public class MyDB {
@@ -29,6 +27,7 @@ public class MyDB {
     }
 
     private Connection conn= null;
+    private Statement statement= null;
 
     private void connect(){
 
@@ -41,6 +40,7 @@ public class MyDB {
 
         try{
             conn= DriverManager.getConnection(jdbcString, connectionProps);
+            statement = conn.createStatement();
         }
         catch (SQLException e) {
             System.out.println("Blad podlaczenia do bazy:"+ jdbcString);
@@ -67,6 +67,18 @@ public class MyDB {
             }
             conn=null;
         }
+    }
+
+    public ResultSet selectData(String selectStatement){
+        if((conn!=null) && (statement !=null)){
+            try{
+                return statement.executeQuery(selectStatement);
+            }
+            catch (SQLException e){
+                System.out.println("Blad realizacji zapytania:"+ selectStatement+ ", "+ e.getMessage());
+            }
+        }
+        return null;
     }
 
 
