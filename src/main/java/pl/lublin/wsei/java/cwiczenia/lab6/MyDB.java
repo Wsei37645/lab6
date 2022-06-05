@@ -70,7 +70,7 @@ public class MyDB {
     }
 
     public ResultSet selectData(String selectStatement){
-        if((conn!=null) && (statement !=null)){
+        if((conn!=null) || (statement !=null)){
             try{
                 return statement.executeQuery(selectStatement);
             }
